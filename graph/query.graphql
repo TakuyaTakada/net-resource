@@ -1,0 +1,24 @@
+type Query {
+    getSite(input: GetIdInput!): Site!
+    getSites(input: SearchSiteInput!): [Site!]!
+    getRack(input: GetIdInput!): Rack!
+    getRacks(input: SearchRackInput!): [Rack!]!
+    getDevice(input: GetIdInput!): Device!
+    getDevices(input: SearchDeviceInput!): [Device!]!
+    getDeviceModel(input: GetIdInput!): DeviceModel!
+    getDeviceModels(input: SearchDeviceModelInput!): [DeviceModel!]!
+    getHost(input: GetIdInput!): Host!
+    getHosts(input: SearchHostInput!): [Host!]!
+    getHostOS(input: GetIdInput!): HostOS!
+    getHostOSes(input: SearchHostOSInput!): [HostOS!]!
+    getIpaddr(input: GetIdInput!): Ipaddr!
+    getIpaddrs(input: SearchIpaddrInput!): [Ipaddr!]!
+    getIpSegment(input: GetIdInput!): IpSegment!
+    getIpSegments(input: SearchIpSegmentInput!): [IpSegment!]!
+    getVrf(input: GetIdInput!): Vrf!
+    getVrfs(input: SearchVrfInput!): [Vrf!]!
+    getSegmentUse(input: GetIdInput!): SegmentUse!
+    getSegmentUses(input: SearchSegmentUseInput!): [SegmentUse!]!
+    getPort(input: GetIdInput!): Port!
+    getPorts(input: SearchPortInput!): [Port!]!
+}

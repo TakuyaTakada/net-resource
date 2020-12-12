@@ -1,0 +1,1 @@
+docker-compose exec -T db pg_dump -U netlabi netlabi > ./scripts/initdb/db-dump.sql

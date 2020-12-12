@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:12.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=netlabi
+      - POSTGRES_PASSWORD=netlabi
+      - POSTGRES_DB=netlabi
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+      - ./scripts/initdb:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+  testdb:
+    image: circleci/postgres:12.1-postgis-ram
+    shm_size: 256m
+    environment:
+      - POSTGRES_USER=netlabi_test
+      - POSTGRES_PASSWORD=netlabi_test
+      - POSTGRES_DB=netlabi_test
+    ports:
+      - "5433:5432"

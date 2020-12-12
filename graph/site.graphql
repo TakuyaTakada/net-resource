@@ -1,0 +1,37 @@
+type Site {
+  id: ID!
+  createdAt: Time!
+  updatedAt: Time!
+  deletedAt: Time
+  name: String!
+  status: Int!
+  postalCode: String
+  phoneNumber: String
+  address: String
+  note: String
+  racks: [Rack]
+}
+
+input CreateSiteInput {
+  name: String!
+  status: Int!
+  postalCode: String
+  phoneNumber: String
+  address: String
+  note: String
+}
+
+input UpdateSiteInput {
+  id: ID!
+  name: String
+  status: Int
+  postalCode: String
+  phoneNumber: String
+  address: String
+  note: String
+}
+
+input SearchSiteInput {
+  name: String
+  status: Int
+}

@@ -1,0 +1,110 @@
+type Ipaddr {
+  id: ID!
+  createdAt: Time!
+  updatedAt: Time!
+  deletedAt: Time
+  ip: IP!
+  status: Int!
+  type: Int!
+  host: Host
+  ipSegment: IpSegment!
+  note: String
+}
+
+input UpdateIpaddrInput {
+  id: ID!
+  status: Int
+  type: Int
+  note: String
+}
+
+input SearchIpaddrInput {
+  ip: IP
+  status: Int
+  type: Int
+  hostId: ID
+  ipSegmentId: ID
+}
+
+type IpSegment {
+  id: ID!
+  createdAt: Time!
+  updatedAt: Time!
+  deletedAt: Time
+  ipSegment: IPSeg!
+  vrf: Vrf
+  ipaddrs: [Ipaddr]
+  use: SegmentUse
+  note: String
+}
+
+input CreateIpSegmentInput {
+  ipSegment: IPSeg!
+  vrfId: ID
+  useId: ID
+  note: String
+}
+
+input UpdateIpSegmentInput {
+  id: ID!
+  vrfId: ID
+  useId: ID
+  note: String
+}
+
+input SearchIpSegmentInput {
+  ipSegment: IPSeg
+  vrfId: ID
+  useId: ID
+}
+
+type Vrf {
+  id: ID!
+  createdAt: Time!
+  updatedAt: Time!
+  deletedAt: Time
+  name: String!
+  ipSegments: [IpSegment]
+  note: String
+}
+
+input CreateVrfInput {
+  name: String!
+  note: String
+}
+
+input UpdateVrfInput {
+  id: ID!
+  name: String
+  note: String
+}
+
+input SearchVrfInput {
+  name: String
+}
+
+type SegmentUse {
+  id: ID!
+  createdAt: Time!
+  updatedAt: Time!
+  deletedAt: Time
+  name: String!
+  ipSegments: [IpSegment]
+  note: String
+}
+
+input CreateSegmentUseInput {
+  name: String!
+  note: String
+}
+
+input UpdateSegmentUseInput {
+  id: ID!
+  name: String
+  note: String
+}
+
+input SearchSegmentUseInput {
+  name: String
+}
+

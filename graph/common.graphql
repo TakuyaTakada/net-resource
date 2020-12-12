@@ -1,0 +1,8 @@
+input GetIdInput {
+    id: ID!
+}
+
+input BulkIdInput {
+    ids: [ID!]!
+}
+

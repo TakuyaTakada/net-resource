@@ -1,0 +1,40 @@
+type Port {
+    id: ID!
+    createdAt: Time!
+    updatedAt: Time!
+    deletedAt: Time
+    name: String!
+    status: Int!
+    device: Device!
+    note: String
+}
+
+input CreatePortInput {
+    name: String!
+    status: Int!
+    deviceId: ID!
+    note: String
+}
+
+input BulkCreatePortInput {
+    prefix: String!
+    startNum: Int!
+    endNum: Int!
+    status: Int!
+    deviceId: ID!
+}
+
+input UpdatePortInput {
+    id: ID!
+    name: String
+    status: Int
+    deviceId: ID
+    note: String
+}
+
+input SearchPortInput {
+    id: ID
+    name: String
+    status: Int
+    deviceId: ID
+}

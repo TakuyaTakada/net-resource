@@ -1,0 +1,51 @@
+schema:
+  - "graph/**/*.graphql"
+
+exec:
+  filename: graph/generated/gqlgen.go
+  package: generated
+
+model:
+  filename: models/generated/gqlgen.go
+  package: models
+
+resolver:
+  filename: resolver/generated/gqlgen.go
+  type: Resolver
+
+autobind:
+  - github.com/taktakty/netlabi/models
+
+models:
+  ID:
+    model: models.ID
+  Site:
+    model: models.Site
+  Rack:
+    model: models.Rack
+  Device:
+    model: models.Device
+    fields:
+      ports:
+        resolver: true
+  DeviceModel:
+    model: models.DeviceModel
+  Host:
+    model: models.Host
+    fields:
+      mgmtIp:
+        resolver: true
+  HostOS:
+    model: models.HostOS
+  Ipaddr:
+    model: models.Ipaddr
+  IpSegment:
+    model: models.IpSegment
+  IP:
+    model: models.IP
+  Vrf:
+    model: models.Vrf
+  SegmentUse:
+    model: models.SegmentUse
+  Port:
+    model: models.Port

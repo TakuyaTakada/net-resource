@@ -1,0 +1,8 @@
+{
+  "baseUrl": "http://localhost/",
+  "projectId": "55b8jm",
+  "reporter": "cypress-multi-reporters",
+  "reporterOptions": {
+    "configFile": "reporterOpts.json"
+  }
+}

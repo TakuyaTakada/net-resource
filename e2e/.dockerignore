@@ -1,0 +1,6 @@
+/cypress/screenshots
+/cypress/reports
+/cypress/videos
+/mochawesome-report
+/node_modules
+/yarn.lock

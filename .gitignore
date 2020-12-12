@@ -1,0 +1,4 @@
+postgres
+build
+resolver/generated/gqlgen.go
+dbdump

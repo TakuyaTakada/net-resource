@@ -1,0 +1,104 @@
+version: 2
+jobs:
+  backend-test:
+    docker:
+      - image: circleci/golang:1.13.5
+      - image: circleci/postgres:12.1-postgis-ram
+        environment:
+          - POSTGRES_USER=netlabi_test
+          - POSTGRES_PASSWORD=netlabi_test
+          - POSTGRES_DB=netlabi_test
+    working_directory: /go/src/github.com/taktakty/netlabi
+    steps:
+      - checkout
+#      - restore_cache:
+#          name: Restore go modules cache
+#          keys:
+#            - go-mod-{{ checksum "go.sum" }}
+      - run: go get -v -t -d ./...
+      - run: curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.24.0
+      - run:
+          command: go get -u golang.org/x/lint/golint
+          working_directory: /go
+#      - save_cache:
+#          name: Save go modules cache
+#          key: go-mod-{{ checksum "go.sum" }}
+#          paths:
+#            - "/go/pkg/mod"
+      - run: make test
+
+  frontend-test:
+    docker:
+      - image: circleci/golang:1.13.5-node
+    working_directory: /go/src/github.com/taktakty/netlabi/frontend
+    steps:
+      - checkout:
+          path: /go/src/github.com/taktakty/netlabi
+      - restore_cache:
+          name: restore yarn package cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: install dependencies
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          name: save yarn package cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: yarn test
+
+  e2e:
+    docker:
+      - image: netlabi/e2e:latest
+        environment:
+          TERM: xterm
+    working_directory: /go/src/github.com/taktakty/netlabi
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          command: make docker-build
+      - restore_cache:
+          keys:
+            - v5-deps-{{ .Branch }}-{{ checksum "./e2e/yarn.lock" }}
+            - v5-deps-{{ .Branch }}-
+            - v5-deps-
+      - run:
+          command: yarn install
+          working_directory: /go/src/github.com/taktakty/netlabi/e2e
+      - save_cache:
+          key: v5-deps-{{ .Branch }}-{{ checksum "./e2e/yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run:
+          command: make dc-e2e
+      - run:
+          command: make fetch-results
+      - store_test_results:
+          path: e2e/cypress/reports
+      - store_artifacts:
+          path: e2e/mochawesome-report
+      - store_artifacts:
+          path: e2e/cypress/videos
+      - store_artifacts:
+          path: e2e/cypress/screenshots
+      - run:
+          command: make report-slack
+      - run:
+          command: echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USERNAME --password-stdin
+      - run:
+          command: make docker-push
+
+workflows:
+  version: 2
+  tests:
+    jobs:
+      - backend-test
+      - frontend-test
+  e2e:
+    jobs:
+      - e2e:
+          filters:
+            branches:
+              only: master

@@ -1,0 +1,38 @@
+image: docker:19.03.1
+variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_DRIVER: overlay2
+
+services:
+  - name: docker:19.03.1-dind
+    command: ["--insecure-registry=registry.taklab.net"]
+
+stages:
+  - build
+  - e2e
+
+before_script:
+  - echo -n $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+
+build:
+  stage: build
+  script:
+    - apk add make
+    - make docker-pull DOCKER_REPO=$CI_REGISTRY_IMAGE
+    - make docker-build DOCKER_REPO=$CI_REGISTRY_IMAGE
+    - make docker-push DOCKER_REPO=$CI_REGISTRY_IMAGE
+
+cypress:
+  image: registry.taklab.net/netlabi/netlabi/e2e:latest
+  stage: e2e
+  script:
+    - make dc-e2e-glab
+    - make fetch-results
+  artifacts:
+    when: always
+    paths:
+      - e2e/cypress/reports
+      - e2e/mochawesome-report
+      - e2e/cypress/videos
+      - e2e/cypress/screenshots

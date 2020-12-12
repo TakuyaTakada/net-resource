@@ -1,0 +1,21 @@
+{
+  "name": "e2e",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "cypress": "^4.0.2",
+    "cypress-multi-reporters": "^1.2.4",
+    "cypress-slack-reporter": "^0.5.3",
+    "mocha": "^7.0.1",
+    "mocha-junit-reporter": "^1.23.3",
+    "mochawesome": "^4.1.0",
+    "mochawesome-merge": "^4.0.1",
+    "mochawesome-report-generator": "^4.1.0"
+  },
+  "scripts": {
+    "start": "cypress open",
+    "test": "cypress run --record",
+    "slack:ci": "cypress-slack-reporter --vcs-provider bitbucket --ci-provider circleci --report-dir ./mochawesome-report --verbose",
+    "slack:local": "cypress-slack-reporter --vcs-provider none --ci-provider none --report-dir ./mochawesome-report --verbose"
+  }
+}

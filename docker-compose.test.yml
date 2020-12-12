@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  database:
+    image: netlabi/e2e-db
+    shm_size: 256m
+    environment:
+      - POSTGRES_USER=netlabi
+      - POSTGRES_PASSWORD=netlabi
+      - POSTGRES_DB=netlabi
+    expose:
+      - "5432"
+
+  backend:
+    image: netlabi/backend:latest
+    environment:
+      - DB_HOST=database
+    expose:
+      - "8080"
+    depends_on:
+      - database
+
+  frontend:
+    image: netlabi/frontend:latest
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+      - "443:443"
+
+  cypress:
+    image: netlabi/cypress:latest
+    depends_on:
+      - frontend
+    environment:
+      - CYPRESS_BASE_URL=http://frontend/
+      - CYPRESS_RECORD_KEY
+      - SLACK_WEBHOOK_URL
+    entrypoint: ["make", "all"]

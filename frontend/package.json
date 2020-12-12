@@ -1,0 +1,74 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@apollo/react-hooks": "^3.1.3",
+    "@material-ui/core": "^4.9.0",
+    "@material-ui/icons": "latest",
+    "@material-ui/lab": "latest",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-beautiful-dnd": "^12.1.2",
+    "@types/react-dom": "^16.9.0",
+    "@types/styled-components": "^5.0.1",
+    "apollo-boost": "^0.4.7",
+    "graphql.macro": "latest",
+    "notistack": "^0.9.7",
+    "react": "^16.12.0",
+    "react-beautiful-dnd": "^13.0.0",
+    "react-dom": "^16.12.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.3.0",
+    "styled-components": "^5.0.1",
+    "typescript": "~3.7.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "schema": "apollo client:download-schema --endpoint=http://localhost:8080/query",
+    "codegen": "apollo client:codegen --localSchemaFile=schema.json --target=typescript",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "format-check": "prettier --check \"src/**/*.{ts,tsx}\""
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@apollo/react-testing": "latest",
+    "@types/react-router-dom": "^5.1.3",
+    "apollo": "^2.21.3",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.1",
+    "lint-staged": "^10.0.7",
+    "prettier": "^1.19.1"
+  },
+  "proxy": "http://localhost:8080",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}

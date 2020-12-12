@@ -1,0 +1,36 @@
+type Rack {
+  id: ID!
+  createdAt: Time!
+  updatedAt: Time!
+  deletedAt: Time
+  name: String!
+  status: Int!
+  site: Site
+  devices: [Device]
+  units: Int!
+  note: String
+}
+
+input CreateRackInput {
+  name: String!
+  status: Int!
+  siteId: ID
+  units: Int!
+  note: String
+}
+
+input UpdateRackInput {
+  id: ID!
+  name: String
+  status: Int
+  siteId: ID
+  units: Int
+  note: String
+}
+
+input SearchRackInput {
+  name: String
+  status: Int
+  siteName: String
+  siteId: String
+}

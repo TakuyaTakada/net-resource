@@ -1,0 +1,155 @@
+type Device {
+  id: ID!
+  createdAt: Time!
+  updatedAt: Time!
+  deletedAt: Time
+  name: String!
+  status: Int!
+  position: Int
+  rack: Rack
+  deviceModel: DeviceModel!
+  host: Host
+  ports: [Port]
+  note: String
+}
+
+input CreateDeviceInput {
+  name: String!
+  status: Int!
+  position: Int
+  rackId: ID
+  deviceModelId: ID!
+  hostId: ID
+  note: String
+}
+
+input UpdateDeviceInput {
+  id: ID!
+  name: String
+  status: Int
+  position: Int
+  rackId: ID
+  deviceModelId: ID
+  hostId: ID
+  note: String
+}
+
+input BulkUpdateDeviceInput {
+  devices: [UpdateDeviceInput]
+}
+
+input SearchDeviceInput {
+  name: String
+  status: Int
+  siteId: ID
+  rackId: ID
+  deviceModelId: ID
+  hostId: ID
+  hostIdOr: ID
+  hostIdIsNull: Boolean
+  positionIsNull: Boolean
+  rackIdOrNull: ID
+}
+
+type DeviceModel {
+  id: ID!
+  createdAt: Time!
+  updatedAt: Time!
+  deletedAt: Time
+  name: String!
+  height: Int!
+  width: Int!
+  devices: [Device]
+  note: String
+}
+
+input CreateDeviceModelInput {
+  name: String!
+  height: Int!
+  width: Int!
+  note: String
+}
+
+input UpdateDeviceModelInput {
+  id: ID!
+  name: String
+  height: Int
+  width: Int
+  note: String
+}
+
+input SearchDeviceModelInput {
+  name: String
+}
+
+type Host {
+  id: ID!
+  createdAt: Time!
+  updatedAt: Time!
+  deletedAt: Time
+  name: String!
+  status: Int!
+  devices: [Device]
+  mgmtIp: Ipaddr
+  hostOS: HostOS
+  protocol: Int
+  note: String
+}
+
+input CreateHostInput {
+  name: String!
+  status: Int!
+  deviceIds: [ID]
+  mgmtIpId: String
+  hostOSId: String
+  protocol: Int
+  note: String
+}
+
+input UpdateHostInput {
+  id: ID!
+  name: String
+  status: Int
+  deviceIds: [ID]
+  mgmtIpId: String
+  hostOSId: String
+  protocol: Int
+  note: String
+}
+
+input SearchHostInput {
+  name: String
+  status: Int
+  hostOSId: ID
+  hostOSIdOr: ID
+  hostOSIsNull: Boolean
+  siteId: ID
+  rackId: ID
+}
+
+type HostOS {
+  id: ID!
+  createdAt: Time!
+  updatedAt: Time!
+  deletedAt: Time
+  name: String!
+  hosts: [Host]
+  note: String
+}
+
+input CreateHostOSInput {
+  name: String!
+  hostIds: [ID]
+  note: String
+}
+
+input UpdateHostOSInput {
+  id: ID!
+  name: String
+  hostIds: [ID]
+  note: String
+}
+
+input SearchHostOSInput {
+  name: String
+}
